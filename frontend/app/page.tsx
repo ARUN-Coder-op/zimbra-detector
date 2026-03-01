@@ -38,7 +38,7 @@ export default function Home() {
 
     try {
       const response = await axios.post<AnalysisResponse>(
-        'http://localhost:8000/api/analyze',
+       "https://zimbra-detector.onrender.com/api/analyze",
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
