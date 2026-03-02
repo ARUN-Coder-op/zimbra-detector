@@ -1,17 +1,10 @@
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api.endpoints import router
-import logging
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-app = FastAPI(title="Zimbra Vulnerability Detector API")
-
-# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://zimbra-detector.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
