@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .api.routes import router   # adjust if your router path is different
+from app.api.endpoints import router
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
