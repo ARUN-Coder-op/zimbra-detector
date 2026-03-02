@@ -1,5 +1,17 @@
+import os
+import logging
+import uvicorn
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .api.routes import router   # adjust if your router path is different
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+app = FastAPI()
+
+# ✅ CORS (Vercel frontend allow)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -13,16 +25,6 @@ app.add_middleware(
 # Include routers
 app.include_router(router)
 
-@app.on_event("startup")
-async def startup_event():
-    """Pre-load model on startup"""
-    from .models.vulnerability_model import model_instance
-    try:
-        logger.info("Pre-loading model on startup...")
-        model_instance.load_model()
-        logger.info("Model pre-loaded successfully!")
-    except Exception as e:
-        logger.error(f"Failed to pre-load model: {e}")
 
 @app.get("/")
 async def root():
@@ -34,3 +36,9 @@ async def root():
             "health": "/api/health"
         }
     }
+
+
+# ✅ IMPORTANT: Render port binding
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
